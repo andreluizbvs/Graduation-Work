@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CudaCompile Include="Particles.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Neighborhood.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Kernel.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="TimeIntegration.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="SystemResolution.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="ParticlesActions.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="Density.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="TimerControl.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+    <CudaCompile Include="VelocityCorrection.cu">
+      <Filter>Source Files\CUDA</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="data_in.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="density.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="Kernel.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="Neighborhood.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleActions.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="Particles.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadWrite.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemResolution.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerControl.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+    <ClCompile Include="VelocityCorrection.cpp">
+      <Filter>Source Files\C++</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AuxiliarFunctions.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="data_in.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="Kernel.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="Neighborhood.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="Particles.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticlesActions.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadWrite.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemResolution.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerControl.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="velocityCorrection.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeIntegration.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
+    <ClInclude Include="density.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Filers">
+      <UniqueIdentifier>{16bd0eae-00a2-41ae-b06f-81cf8ea60c7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{32bae7ab-ff20-424b-b058-242712925e19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\C++">
+      <UniqueIdentifier>{478df437-956f-4791-94e0-f3eef9455b6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CUDA">
+      <UniqueIdentifier>{3f2d1dc1-5c08-4aa7-916b-4027486d53d8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

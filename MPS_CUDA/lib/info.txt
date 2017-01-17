@@ -1,0 +1,1 @@
+Diretório para reunir todos os ".lib" gerados como resultados dos projetos presentes em "Libraries"
