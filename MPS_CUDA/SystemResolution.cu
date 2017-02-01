@@ -87,7 +87,10 @@ __global__ void cal_B_HS_ECS_kernel(int offset, Particle3D* particles, double n0
 	}
 
 	temp_b[i] = (-1.25 / (n0p*dt[0]))*sum + ECS; ///////////// MPS-ECS
-	atomicAdd(&contTemp[0], 1);
+	if (!(particles)[i].is_wall()){
+		atomicAdd(&contTemp[0], 1);
+	}
+
 
 }
 
@@ -102,12 +105,12 @@ __global__ void cal_B_kernel(int offset, Particle3D* particles, double n0p, doub
 
 }
 
-__global__ void set_B_HS_ECS_kernel(int offset, int *bcon, int *contB, double *scrB, double *temp_b, int *contTemp){
+__global__ void set_B_HS_ECS_kernel(int offset, int *bcon, int *contB, double *srcB, double *temp_b, int *contTemp){
 	
 	//unsigned int a = offset + (blockDim.x * blockIdx.x + threadIdx.x);
 	for (int a = 0; a < contTemp[0]; a++){
 		if (bcon[a] == 0){
-			scrB[contB[0]] = temp_b[a];
+			srcB[contB[0]] = temp_b[a];
 			atomicAdd(&contB[0], 1);
 		}
 	}
@@ -130,6 +133,7 @@ __global__ void cal_A_HL_kernel(int offset, Particle3D* particles, int *neiICCG,
 		else{
 			dx = 0.0;
 			dy = 0.0;
+			dz = 0.0;
 			dist = 0.0;
 			val = 1.0;
 

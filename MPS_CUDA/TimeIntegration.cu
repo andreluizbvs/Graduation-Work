@@ -117,6 +117,8 @@ void TimeIntegration(Particle3D *particles, ReadWrite FileControl, data_in *inpu
 		}
 	}
 	*/
+	int *neiICCG = new int[nump];
+
 	int *nei_d = NULL;
 	int *neiICCG_d = NULL;
 
@@ -149,8 +151,7 @@ void TimeIntegration(Particle3D *particles, ReadWrite FileControl, data_in *inpu
 	cudaMemcpy(temp, n0pICCG_d, sizeof(double), cudaMemcpyDeviceToHost);
 	cudaFree(n0pICCG_d);
 	n0pICCG = temp[0];
-	cout << n0pICCG << endl;
-	system("pause");
+
 
 	cal_n_kernel << <division, 1024 >> >(0, nei_d, particles_d, input_data->radius, nump);
 	cal_n_kernel << <1, mod >> >(division * 1024, nei_d, particles_d, input_data->radius, nump);
@@ -163,8 +164,6 @@ void TimeIntegration(Particle3D *particles, ReadWrite FileControl, data_in *inpu
 	cudaMemcpy(temp, n0p_d, sizeof(double), cudaMemcpyDeviceToHost);
 	cudaFree(n0p_d);
 	n0p = temp[0];
-	cout << n0p << endl;
-	system("pause");
 
 	// Setando valor de dt
 	double *dt_d = NULL;
@@ -264,6 +263,13 @@ void TimeIntegration(Particle3D *particles, ReadWrite FileControl, data_in *inpu
 		set_nei_kernel << <1, mod >> >(division * 1024, particles_d, input_data->radius_ICCG2, nump, neiICCG_d);
 		//cudaEventRecord(t_end[4]);
 
+		cudaMemcpy(neiICCG, neiICCG_d, nump * sizeof(int), cudaMemcpyDeviceToHost);
+
+		ofstream vizinhos;
+		vizinhos.open("vizinhos_p1.txt");
+		for (int i = 0; i < nump; i++) vizinhos << neiICCG[i] << " ";
+		vizinhos.close();
+		system("pause");
 		//cudaEventRecord(t_begin[5]);
 		// Recalculando n (particle number density)
 		cal_n_kernel << <division, 1024 >> >(0, nei_d, particles_d, input_data->radius, nump);

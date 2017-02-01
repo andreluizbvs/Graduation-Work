@@ -1,0 +1,34 @@
+'NumberOfFluid	'	    4
+'wall_type		'       3
+'wall_p_type    '	    2
+'DensityFluid0	'	    1000.0
+'DensityFluid1	'	    1000.0 
+'DensityWall_P	'	    1000.0 
+'DensityWall	'	    1000.0
+'ExpansionFluid0 '		1.0e-7
+'ExpansionFluid1 '		1.0e-7
+'ExpansionWall_P '		1.0e-7
+'ExpansionWall	'	    1.0e-7
+'Gravity		'	    9.8
+'MaxTime		'	    4.0    
+'MaxIteration	'	    2
+'MaxDt			'       1.0e-3   
+'DtRatio		'	    0.1      
+'Convergence	'	    1.0e-9
+'MaxIterPress	'	    50    
+'MinIterPress	'	    10
+'Outputtype		'       'T'
+'OutputInterval	'	    0.01 
+'AveParticleDis	'	    8.0e-3   
+'rePND			'       2.1
+'reICCG			'       4.0      
+'minlen			'       0.5
+'dirichlet		'       0.97
+'col_rat		'	    0.2
+'lam_rat		'	    1.0
+'PND			'       0.0 0
+'Solid(NO)		'       1
+                    
+
+
+

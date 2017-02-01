@@ -98,7 +98,9 @@
     <ClInclude Include="TimeIntegration.h">
       <Filter>Header Filers</Filter>
     </ClInclude>
-    <ClInclude Include="density.h" />
+    <ClInclude Include="density.h">
+      <Filter>Header Filers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Filers">

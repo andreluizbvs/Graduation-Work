@@ -245,6 +245,218 @@ void criaParticulasQuebraBarragem3D(){
 	fclose(writeGrid);
 }
 
+void criaParticulasQuebraBarragem3D_offset() {
+
+	int mp = 14;
+	int np = 7;
+	int op = 7;
+
+	double xl = mp*0.0125;
+	double yl = np*0.0125;
+	double zl = op*0.0125;
+
+	double dx = xl / mp;
+	double dy = yl / np;
+	double dz = zl / op;
+
+	double offset = 3*dx;
+
+	FILE *writeGrid;
+	writeGrid = fopen("mps.grd", "w");
+	//fprintf(writeGrid, "0.0\n");
+	fprintf(writeGrid, "%d \n", /*fluido*/(op)*(mp*np) +/*first wall*/op*(4 * mp + 10) + (4 * mp + 4)*(mp + 5) +/*second wall*/(op + 4)*(4 * mp + 14) + (4 * mp + 4)*(mp + 5) +/*thrid wall*/(op + 6)*(4 * mp + 18) + (4 * mp + 8)*(mp + 6) /*+ /*fourth wall (op + 8)*(4 * mp + 22) + (4 * mp + 12)*(mp + 7) + /*fifth wall (op + 10)*(4 * mp + 26) + (4 * mp + 16)*(mp + 8)*/);
+
+	for (int k = 0; k < (op); k++) {
+		//PARTICULAS TIPO 0 #fluido
+		for (int i = 0; i < (mp / 2); i++) {
+			for (int j = 0; j < (2 * np); j++) {
+				fprintf(writeGrid, "0 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", (i*dx + (3 * dx)) + offset, (j*dy + (3 * dy)) + offset, dz*k + offset);
+			}
+		}
+	}
+
+	//PARTICULAS TIPO 2 #interna
+	for (int k = 0; k < (op); k++) {
+		for (int i = 0; i < (2 * mp) + 1; ++i) { //down
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", ((i*dx) + 2 * dx) + offset, (2 * dy) + offset, dz*k + offset);
+		}
+		for (int i = 0; i < (mp)+4; ++i) { //left
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", (2 * dx) + offset, ((i*dy) + (3 * dy)) + offset, dz*k + offset);
+		}
+		for (int i = 0; i < (mp)+5; ++i) { //right
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", (2 * xl + 3 * dx) + offset, ((i*dy) + (2 * dy)) + offset, dz*k + offset);
+		}
+	}
+	for (int i = 0; i < ((2 * mp) + 2); ++i) { //front
+		for (int j = 0; j < ((mp)+5); ++j) {
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", ((i*dx) + 2 * dx) + offset, ((2 * dy) + j*dy) + offset, -dz + offset);
+		}
+	}
+	for (int i = 0; i < ((2 * mp) + 2); ++i) { //back
+		for (int j = 0; j < ((mp)+5); ++j) {
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", ((i*dx) + 2 * dx) + offset, ((2 * dy) + j*dy) + offset, (op)*dz + offset);
+		}
+	}
+
+	//PARTICULAS TIPO 2 #externa
+	for (int k = 0; k < (op + 4); k++) {
+		for (int i = 0; i < (2 * mp) + 4; ++i) { //down
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", ((i*dx) + dx) + offset, dy + offset, dz*k - 2 * dz + offset);
+		}
+		for (int i = 0; i < (mp)+5; ++i) { //left
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", dx + offset, ((i*dy) + (2 * dy)) + offset, dz*k - 2 * dz + offset);
+		}
+		for (int i = 0; i < (mp)+5; ++i) { //right
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", (2 * xl + (4 * dx)) + offset, ((i*dy) + 2 * dy) + offset, dz*k - 2 * dz + offset);
+		}
+	}
+
+	for (int i = 0; i < ((2 * mp) + 2); ++i) { //front
+		for (int j = 0; j < ((mp)+5); ++j) {
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", ((i*dx) + 2 * dx) + offset, (2 * dy + j*dy) + offset, -2 * dz + offset);
+		}
+	}
+	for (int i = 0; i < ((2 * mp) + 2); ++i) { //back
+		for (int j = 0; j < ((mp)+5); ++j) {
+			fprintf(writeGrid, "2 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", ((i*dx) + 2 * dx) + offset, (2 * dy + j*dy) + offset, (op + 1)*dz + offset);
+		}
+	}
+
+	//PARTICULAS TIPO 3 #interna
+	for (int k = 0; k < (op + 6); k++) {
+		for (int i = 0; i < (2 * mp) + 6; ++i) { //down
+			fprintf(writeGrid, "3 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", (i*dx) + offset, offset,dz*k - 3 * dz + offset);
+		}
+		for (int i = 0; i < (mp)+6; ++i) { //left
+			fprintf(writeGrid, "3 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", offset, ((i*dy) + dy) + offset, dz*k - 3 * dz + offset);
+		}
+		for (int i = 0; i < (mp)+6; ++i) { //right
+			fprintf(writeGrid, "3 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", (2 * xl + (5 * dx)) + offset, (i*dy + dy) + offset, dz*k - 3 * dz + offset);
+		}
+	}
+
+	for (int i = 0; i < ((2 * mp) + 4); ++i) { //front
+		for (int j = 0; j < ((mp)+6); ++j) {
+			fprintf(writeGrid, "3 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", i*dx + dx + offset, j*dy + dy + offset, -3 * dz + offset);
+		}
+	}
+	for (int i = 0; i < ((2 * mp) + 4); ++i) { //back
+		for (int j = 0; j < ((mp)+6); ++j) {
+			fprintf(writeGrid, "3 %lf %lf %lf 0.0 0.0 0.0 0.0 0.0 \n", i*dx + dx + offset, j*dy + dy + offset, (op + 2)*dz + offset);
+		}
+	}
+
+	
+	fclose(writeGrid);
+}
+
+void criaParticulasQuebraBarragem3D_offset_semzero() {
+
+	int mp = 14;
+	int np = 7;
+	int op = 7;
+
+	double xl = mp*0.0125;
+	double yl = np*0.0125;
+	double zl = op*0.0125;
+
+	double dx = xl / mp;
+	double dy = yl / np;
+	double dz = zl / op;
+
+	double offsetX = 2 * dx;
+	double offsetY = 2 * dx;
+	double offsetZ = 4 * dx;
+
+	FILE *writeGrid;
+	writeGrid = fopen("mps.grd", "w");
+	//fprintf(writeGrid, "0.0\n");
+	fprintf(writeGrid, "%d \n", /*fluido*/(op)*(mp*np) +/*first wall*/op*(4 * mp + 10) + (4 * mp + 4)*(mp + 5) +/*second wall*/(op + 4)*(4 * mp + 14) + (4 * mp + 4)*(mp + 5) +/*thrid wall*/(op + 6)*(4 * mp + 18) + (4 * mp + 8)*(mp + 6) /*+ /*fourth wall (op + 8)*(4 * mp + 22) + (4 * mp + 12)*(mp + 7) + /*fifth wall (op + 10)*(4 * mp + 26) + (4 * mp + 16)*(mp + 8)*/);
+
+	for (int k = 0; k < (op); k++) {
+		//PARTICULAS TIPO 0 #fluido
+		for (int i = 0; i < (mp / 2); i++) {
+			for (int j = 0; j < (2 * np); j++) {
+				fprintf(writeGrid, "0 %lf %lf %lf\n", (i*dx + (3 * dx)) + offsetX, (j*dy + (3 * dy)) + offsetY, dz*k + offsetZ);
+			}
+		}
+	}
+
+	//PARTICULAS TIPO 2 #interna
+	for (int k = 0; k < (op); k++) {
+		for (int i = 0; i < (2 * mp) + 1; ++i) { //down
+			fprintf(writeGrid, "2 %lf %lf %lf\n", ((i*dx) + 2 * dx) + offsetX, (2 * dy) + offsetY, dz*k + offsetZ);
+		}
+		for (int i = 0; i < (mp)+4; ++i) { //left
+			fprintf(writeGrid, "2 %lf %lf %lf\n", (2 * dx) + offsetX, ((i*dy) + (3 * dy)) + offsetY, dz*k + offsetZ);
+		}
+		for (int i = 0; i < (mp)+5; ++i) { //right
+			fprintf(writeGrid, "2 %lf %lf %lf\n", (2 * xl + 3 * dx) + offsetX, ((i*dy) + (2 * dy)) + offsetY, dz*k + offsetZ);
+		}
+	}
+	for (int i = 0; i < ((2 * mp) + 2); ++i) { //front
+		for (int j = 0; j < ((mp)+5); ++j) {
+			fprintf(writeGrid, "2 %lf %lf %lf\n", ((i*dx) + 2 * dx) + offsetX, ((2 * dy) + j*dy) + offsetY, -dz + offsetZ);
+		}
+	}
+	for (int i = 0; i < ((2 * mp) + 2); ++i) { //back
+		for (int j = 0; j < ((mp)+5); ++j) {
+			fprintf(writeGrid, "2 %lf %lf %lf\n", ((i*dx) + 2 * dx) + offsetX, ((2 * dy) + j*dy) + offsetY, (op)*dz + offsetZ);
+		}
+	}
+
+	//PARTICULAS TIPO 2 #externa
+	for (int k = 0; k < (op + 4); k++) {
+		for (int i = 0; i < (2 * mp) + 4; ++i) { //down
+			fprintf(writeGrid, "2 %lf %lf %lf\n", ((i*dx) + dx) + offsetX, dy + offsetY, dz*k - 2 * dz + offsetZ);
+		}
+		for (int i = 0; i < (mp)+5; ++i) { //left
+			fprintf(writeGrid, "2 %lf %lf %lf\n", dx + offsetX, ((i*dy) + (2 * dy)) + offsetY, dz*k - 2 * dz + offsetZ);
+		}
+		for (int i = 0; i < (mp)+5; ++i) { //right
+			fprintf(writeGrid, "2 %lf %lf %lf\n", (2 * xl + (4 * dx)) + offsetX, ((i*dy) + 2 * dy) + offsetY, dz*k - 2 * dz + offsetZ);
+		}
+	}
+
+	for (int i = 0; i < ((2 * mp) + 2); ++i) { //front
+		for (int j = 0; j < ((mp)+5); ++j) {
+			fprintf(writeGrid, "2 %lf %lf %lf\n", ((i*dx) + 2 * dx) + offsetX, (2 * dy + j*dy) + offsetY, -2 * dz + offsetZ);
+		}
+	}
+	for (int i = 0; i < ((2 * mp) + 2); ++i) { //back
+		for (int j = 0; j < ((mp)+5); ++j) {
+			fprintf(writeGrid, "2 %lf %lf %lf\n", ((i*dx) + 2 * dx) + offsetX, (2 * dy + j*dy) + offsetY, (op + 1)*dz + offsetZ);
+		}
+	}
+
+	//PARTICULAS TIPO 3 #interna
+	for (int k = 0; k < (op + 6); k++) {
+		for (int i = 0; i < (2 * mp) + 6; ++i) { //down
+			fprintf(writeGrid, "3 %lf %lf %lf\n", (i*dx) + offsetX, offsetY, dz*k - 3 * dz + offsetZ);
+		}
+		for (int i = 0; i < (mp)+6; ++i) { //left
+			fprintf(writeGrid, "3 %lf %lf %lf\n", offsetX, ((i*dy) + dy) + offsetY, dz*k - 3 * dz + offsetZ);
+		}
+		for (int i = 0; i < (mp)+6; ++i) { //right
+			fprintf(writeGrid, "3 %lf %lf %lf\n", (2 * xl + (5 * dx)) + offsetX, (i*dy + dy) + offsetY, dz*k - 3 * dz + offsetZ);
+		}
+	}
+
+	for (int i = 0; i < ((2 * mp) + 4); ++i) { //front
+		for (int j = 0; j < ((mp)+6); ++j) {
+			fprintf(writeGrid, "3 %lf %lf %lf\n", i*dx + dx + offsetX, j*dy + dy + offsetY, -3 * dz + offsetZ);
+		}
+	}
+	for (int i = 0; i < ((2 * mp) + 4); ++i) { //back
+		for (int j = 0; j < ((mp)+6); ++j) {
+			fprintf(writeGrid, "3 %lf %lf %lf\n", i*dx + dx + offsetX, j*dy + dy + offsetY, (op + 2)*dz + offsetZ);
+		}
+	}
+
+
+	fclose(writeGrid);
+}
+
 
 int main()
 {
@@ -255,15 +467,16 @@ int main()
 	Particle3D *particles;
 	ReadWrite FileControl;
 
-	criaParticulasQuebraBarragem3D();
+	//criaParticulasQuebraBarragem3D();
+	criaParticulasQuebraBarragem3D_offset_semzero();
 
 
 	// Pegando e imprimindo número de particulas "nump"
 	ifstream in;
-	in.open("C:\\Users\\Andre Luiz\\Google Drive\\MPS_CUDA\\mps.grd");
+	in.open("mps.grd");
 	while (!in.is_open()){
 		std::cout << "Tentando ler mps.grd novamente" << endl;
-		in.open("C:\\Users\\Andre Luiz\\Google Drive\\MPS_CUDA\\mps.grd");
+		in.open("mps.grd");
 	}
 	in >> nump; std::cout << nump << endl;
 
@@ -272,8 +485,8 @@ int main()
 	particles = new Particle3D[nump];
 
 	// Lendo informações sobre as partículas e a simulação
-	FileControl.ReadData("C:\\Users\\Andre Luiz\\Google Drive\\MPS_CUDA\\mps.data", input_data);
-	FileControl.ReadParticles3D(particles, "C:\\Users\\Andre Luiz\\Google Drive\\MPS_CUDA\\mps.grd", nump);
+	FileControl.ReadData("mps.data", input_data);
+	FileControl.ReadParticles3D(particles, "mps.grd", nump);
 
 	// Pegando o valor do passo de tempo
 	input_data->dt = input_data->MaxDt;

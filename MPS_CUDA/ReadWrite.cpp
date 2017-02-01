@@ -202,7 +202,7 @@ void ReadWrite::WriteOut2D(Particle2D* particles, int number, int nump)
 {
 	FILE*out;
 	char nome[1000] = "\0";
-	int n = sprintf_s(nome,"C:\\Users\\Andre Luiz\\Google Drive\\MPS_CUDA\\saida_tg\\out%d.vtu",number);
+	int n = sprintf_s(nome,"saida_tg\\out%d.vtu",number);
 
 	fopen_s(&out,nome,"w");
 	while (out == NULL){
@@ -288,7 +288,7 @@ void ReadWrite::WriteOut(Particle3D* particles, int number, int nump)
 {
 	FILE*out;
 	char nome[1000] = "\0";
-	int n = sprintf_s(nome, "C:\\Users\\Andre Luiz\\Google Drive\\MPS_CUDA\\saida_tg\\out%d.vtu", number);
+	int n = sprintf_s(nome, "saida_tg\\out%d.vtu", number);
 
 	fopen_s(&out, nome, "w");
 	while (out == NULL){
